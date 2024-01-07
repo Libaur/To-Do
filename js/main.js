@@ -20,7 +20,7 @@ function loadingActions() {
     const name = task[1].name;
     const priority = task[1].priority;
     const status = task[1].status;
-    taskManager.addTask(id, name, priority, status)
+    taskManager.addTask(id, name, priority, status);
   });
   clearUI();
   addTaskToUI(taskManager.tasks);
@@ -35,9 +35,7 @@ function handlerTask(event) {
   try {
     checkTaskValidation(name);
     taskManager.addTask(id, name, priority);
-    clearUI();
-    addTaskToUI(taskManager.tasks);
-    updateStorage(taskManager.tasks);
+    updateUIAndStorage(taskManager.tasks);
     inputs[type].value = null;
   } catch (error) {
     return (errorOutput.textContent = error.message);
@@ -53,12 +51,12 @@ function addTaskToUI(tasks) {
     const newTask = createStructureOfTask(id, name, priority, status);
     section.append(newTask);
     newTask.querySelector("span").addEventListener("click", deleteTask);
-    newTask
-      .querySelector("select")
-      .addEventListener("change", changePriorityAndStatus);
-    newTask
-      .querySelector("select")
-      .nextElementSibling.addEventListener("change", changePriorityAndStatus);
+    const select = newTask.querySelector("select");
+    select.addEventListener("change", changePriorityAndStatus);
+    select.nextElementSibling.addEventListener(
+      "change",
+      changePriorityAndStatus
+    );
   });
 }
 
@@ -76,9 +74,7 @@ function changePriorityAndStatus(event) {
       select.value
     );
   }
-  clearUI();
-  addTaskToUI(taskManager.tasks);
-  updateStorage(taskManager.tasks);
+  updateUIAndStorage(taskManager.tasks);
 }
 
 function deleteTask(event) {
@@ -90,9 +86,13 @@ function deleteTask(event) {
   status.removeEventListener("change", changePriorityAndStatus);
   span.removeEventListener("click", deleteTask);
   taskManager.removeTask(task.id);
+  updateUIAndStorage(taskManager.tasks);
+}
+
+function updateUIAndStorage(tasks) {
   clearUI();
-  addTaskToUI(taskManager.tasks);
-  updateStorage(taskManager.tasks);
+  addTaskToUI(tasks);
+  updateStorage(tasks);
 }
 
 document.addEventListener("DOMContentLoaded", loadingActions);

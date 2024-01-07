@@ -25,6 +25,19 @@ const updateStorage = (tasks) =>
 
 const createElement = (element) => document.createElement(element);
 
+const setAttributesAndContent = (element, attributes, content) => {
+  Object.keys(attributes).forEach((key) =>
+    element.setAttribute(key, attributes[key])
+  );
+  if (content) element.textContent = content;
+};
+
+const createElementWithAttributes = (tag, attributes) => {
+  const element = document.createElement(tag);
+  setAttributesAndContent(element, attributes);
+  return element;
+};
+
 function buildBlockOfElements(
   div,
   selectPriority,
@@ -36,52 +49,48 @@ function buildBlockOfElements(
   optionDone,
   span
 ) {
-  div.setAttribute("class", "task-wrapper");
-  selectPriority.setAttribute("class", "priority");
-  optionHigh.setAttribute("value", "HIGH");
-  optionLow.setAttribute("value", "LOW");
-  selectStatus.setAttribute("class", "status");
-  optionToDo.setAttribute("value", "TO DO");
-  optionInProgress.setAttribute("value", "IN PROGRESS");
-  optionDone.setAttribute("value", "DONE");
-  span.setAttribute("class", "lnr lnr-cross");
-  optionHigh.textContent = "HIGH";
-  optionLow.textContent = "LOW";
-  optionToDo.textContent = "TO DO";
-  optionInProgress.textContent = "IN PROGRESS";
-  optionDone.textContent = "DONE";
-
-  const newBlock = div;
+  setAttributesAndContent(div, { class: "task-wrapper" });
+  setAttributesAndContent(selectPriority, { class: "priority" });
+  setAttributesAndContent(optionHigh, { value: "HIGH" }, "HIGH");
+  setAttributesAndContent(optionLow, { value: "LOW" }, "LOW");
+  setAttributesAndContent(selectStatus, { class: "status" });
+  setAttributesAndContent(optionToDo, { value: "TO DO" }, "TO DO");
+  setAttributesAndContent(
+    optionInProgress,
+    { value: "IN PROGRESS" },
+    "IN PROGRESS"
+  );
+  setAttributesAndContent(optionDone, { value: "DONE" }, "DONE");
+  setAttributesAndContent(span, { class: "lnr lnr-cross" });
 
   div.append(selectPriority, selectStatus, span);
   selectPriority.append(optionHigh, optionLow);
   selectStatus.append(optionToDo, optionInProgress, optionDone);
 
-  return newBlock;
+  return div;
 }
 
 function createStructureOfTask(id, name, priority, status) {
-  const DIV = createElement("div");
-  const SELECT_PRIORITY = createElement("select");
-  const OPTION_HIGH = createElement("option");
-  const OPTION_LOW = createElement("option");
-  const SELECT_STATUS = createElement("select");
-  const OPTION_TO_DO = createElement("option");
-  const OPTION_IN_PROGRESS = createElement("option");
-  const OPTION_DONE = createElement("option");
-  const SPAN = createElement("span");
-  DIV.textContent = name;
-  DIV.id = id;
+  const div = createElementWithAttributes("div", { id, textContent: name });
+  const selectPriority = createElement("select");
+  const optionHigh = createElement("option");
+  const optionLow = createElement("option");
+  const selectStatus = createElement("select");
+  const optionToDo = createElement("option");
+  const optionInProgress = createElement("option");
+  const optionDone = createElement("option");
+  const span = createElement("span");
+
   const structureOfTask = buildBlockOfElements(
-    DIV,
-    SELECT_PRIORITY,
-    OPTION_HIGH,
-    OPTION_LOW,
-    SELECT_STATUS,
-    OPTION_TO_DO,
-    OPTION_IN_PROGRESS,
-    OPTION_DONE,
-    SPAN
+    div,
+    selectPriority,
+    optionHigh,
+    optionLow,
+    selectStatus,
+    optionToDo,
+    optionInProgress,
+    optionDone,
+    span
   );
   structureOfTask.querySelector(".priority").value = priority;
   structureOfTask.querySelector(".status").value = status;

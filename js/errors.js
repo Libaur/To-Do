@@ -1,28 +1,28 @@
 class ShortDescriptionError extends Error {
   constructor(message) {
     super(message);
-    this.name = ShortDescriptionError;
+    this.name = "ShortDescriptionError";
   }
 }
 
 class LongDescriptionError extends Error {
   constructor(message) {
     super(message);
-    this.name = LongDescriptionError;
+    this.name = "LongDescriptionError";
   }
 }
 
 class EmptyStorageError extends Error {
   constructor(message) {
     super(message);
-    this.name = EmptyStorageError;
+    this.name = "EmptyStorageError";
   }
 }
 
 class ObtainCurrentTasksError extends Error {
   constructor(message) {
     super(message);
-    this.name = ObtainCurrentTasksError;
+    this.name = "ObtainCurrentTasksError";
   }
 }
 
@@ -43,6 +43,6 @@ export const checkObtainFromStorage = () => {
     return currentTasks;
   } catch (error) {
     console.error(error.message);
-    return [];
+    return null;
   }
 };
