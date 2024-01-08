@@ -32,12 +32,6 @@ const setAttributesAndContent = (element, attributes, content) => {
   if (content) element.textContent = content;
 };
 
-const createElementWithAttributes = (tag, attributes) => {
-  const element = document.createElement(tag);
-  setAttributesAndContent(element, attributes);
-  return element;
-};
-
 function buildBlockOfElements(
   div,
   selectPriority,
@@ -47,9 +41,11 @@ function buildBlockOfElements(
   optionToDo,
   optionInProgress,
   optionDone,
-  span
+  span,
+  content,
+  id
 ) {
-  setAttributesAndContent(div, { class: "task-wrapper" });
+  setAttributesAndContent(div, { class: "task-wrapper", id: id }, content);
   setAttributesAndContent(selectPriority, { class: "priority" });
   setAttributesAndContent(optionHigh, { value: "HIGH" }, "HIGH");
   setAttributesAndContent(optionLow, { value: "LOW" }, "LOW");
@@ -70,8 +66,8 @@ function buildBlockOfElements(
   return div;
 }
 
-function createStructureOfTask(id, name, priority, status) {
-  const div = createElementWithAttributes("div", { id, textContent: name });
+function createStructureOfTask(id, content, priority, status) {
+  const div = createElement("div");
   const selectPriority = createElement("select");
   const optionHigh = createElement("option");
   const optionLow = createElement("option");
@@ -90,7 +86,9 @@ function createStructureOfTask(id, name, priority, status) {
     optionToDo,
     optionInProgress,
     optionDone,
-    span
+    span,
+    content,
+    id
   );
   structureOfTask.querySelector(".priority").value = priority;
   structureOfTask.querySelector(".status").value = status;
