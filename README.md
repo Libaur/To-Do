@@ -1,3 +1,4 @@
+Переписанное на TypeScript приложение находится во второй ветке.
 <div align="center">
   <img src="https://media.giphy.com/media/aSZSj0mT8f6tW/giphy.gif" width="170"/>
 </div>
